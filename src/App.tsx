@@ -1,7 +1,7 @@
 
 // importfunctionalities
 import React from 'react';
-import logo from './logo.svg';
+
 import './App.css';
 import {
   PublicKey,
@@ -63,6 +63,9 @@ function App() {
   );
 
   // this is the function that runs whenever the component updates (e.g. render, refresh)
+ 
+
+
   useEffect(() => {
 	  const provider = getProvider();
 
@@ -93,13 +96,27 @@ function App() {
     }
   };
 
+
+    const disconnectWallet = async () => {
+    // @ts-ignore
+
+
+		// checks if phantom wallet exists
+ try {
+     
+        setWalletKey(undefined);
+      } catch (err) {
+      // { code: 4001, message: 'User rejected the request.' }
+      }
+    }
+ 
+
 	// HTML code for the app
   return (
     <div className="App">
       <header className="App-header">
         <h2>Connect to Phantom Wallet</h2>
-      </header>
-      {provider && !walletKey && (
+             {provider && !walletKey && (
           <button
             style={{
               fontSize: "16px",
@@ -112,7 +129,20 @@ function App() {
             Connect Wallet
           </button>
         )}
-        {provider && walletKey && <p>Connected account</p> }
+        {provider && walletKey && (<div><p>Connected account <br/>Your Wallet Key is: {walletKey.toString()}</p> 
+            <button
+            style={{
+              fontSize: "16px",
+              padding: "15px",
+              fontWeight: "bold",
+              borderRadius: "5px",
+            }}
+            onClick={disconnectWallet}
+          >
+            Disconnect Wallet
+
+        </button>
+        </div>)}
 
         {!provider && (
           <p>
@@ -120,6 +150,8 @@ function App() {
             <a href="https://phantom.app/">Phantom Browser extension</a>
           </p>
         )}
+      </header>
+ 
     </div>
   );
 }
